@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="bn" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>তালিমুল কোরআন - ইসলামী ব্যাংক ট্রেনিং এন্ড রিসার্চ একাডেমী</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            850: '#064e3b',
+                            950: '#022c22',
+                        },
+                        amber: {
+                            450: '#f59e0b',
+                            550: '#d97706',
+                        }
+                    },
+                    fontFamily: {
+                        bengali: ['"Noto Sans Bengali"', '"SolaimanLipi"', 'sans-serif'],
+                        arabic: ['"Amiri"', '"Scheherazade New"', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Sans+Bengali:wght@300;400;500;600;700;800&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            background-color: #f4f7f5;
+        }
+        .arabic-text {
+            font-family: 'Amiri', 'Scheherazade New', serif;
+            direction: rtl;
+            line-height: 2.2;
+        }
+        .slide-transition {
+            transition: all 0.35s ease-in-out;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #059669;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #047857;
+        }
+
+        @media print {
+            header, footer, #slideControls, #tocModal, .no-print {
+                display: none !important;
+            }
+            #docView {
+                display: block !important;
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body class="h-full bg-slate-100 text-slate-800 flex flex-col justify-between overflow-x-hidden selection:bg-emerald-200 selection:text-emerald-900">
+
+    <!-- Top Header Navigation -->
+    <header class="bg-emerald-900 text-white shadow-lg sticky top-0 z-40 border-b border-amber-500/30">
+        <div class="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between gap-2">
+            <div class="flex items-center space-x-3">
+                <div class="bg-amber-500 text-emerald-950 p-2 rounded-lg font-bold shadow-md">
+                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="text-base md:text-lg font-bold leading-tight text-amber-300">তালিমুল কোরআন</h1>
+                    <p class="text-xs text-emerald-200 hidden sm:block">ইসলামী ব্যাংক ট্রেনিং এন্ড রিসার্চ একাডেমী</p>
+                </div>
+            </div>
+
+            <!-- Header Controls -->
+            <div class="flex items-center space-x-1.5 md:space-x-3">
+                <!-- Bookmark Toggle -->
+                <button onclick="toggleBookmark()" id="bookmarkBtn" class="p-2 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-amber-300 transition" title="স্লাইড বুকমার্ক করুন">
+                    <i id="bookmarkIcon" data-lucide="bookmark" class="w-4 h-4"></i>
+                </button>
+
+                <!-- Mode Toggle Button -->
+                <button id="viewToggleBtn" onclick="toggleViewMode()" class="px-3 py-1.5 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-amber-200 text-xs md:text-sm font-medium transition flex items-center gap-1.5 border border-emerald-700 shadow-sm">
+                    <i id="viewToggleIcon" data-lucide="layout" class="w-4 h-4"></i>
+                    <span id="viewToggleText" class="hidden sm:inline">ডকুমেন্ট মোড</span>
+                </button>
+
+                <!-- Topic Menu Drawer Toggle -->
+                <button onclick="toggleTocModal()" class="px-3 py-1.5 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-emerald-100 text-xs md:text-sm font-medium transition flex items-center gap-1.5 border border-emerald-700">
+                    <i data-lucide="list" class="w-4 h-4 text-amber-400"></i>
+                    <span class="hidden md:inline">সূচিপত্র</span>
+                </button>
+
+                <!-- Font Size Adjustment -->
+                <div class="hidden lg:flex items-center bg-emerald-950/60 rounded-lg p-1 border border-emerald-800">
+                    <button onclick="adjustFontSize(-1)" class="p-1 hover:bg-emerald-800 rounded text-emerald-200" title="ফন্ট ছোট করুন">
+                        <i data-lucide="minus" class="w-4 h-4"></i>
+                    </button>
+                    <span class="px-2 text-xs font-semibold text-emerald-300">A</span>
+                    <button onclick="adjustFontSize(1)" class="p-1 hover:bg-emerald-800 rounded text-emerald-200" title="ফন্ট বড় করুন">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <!-- Print / Save PDF Button -->
+                <button onclick="window.print()" class="p-2 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-emerald-200 transition hidden sm:block" title="প্রিন্ট / PDF সংরক্ষণ">
+                    <i data-lucide="printer" class="w-4 h-4"></i>
+                </button>
+
+                <!-- Fullscreen Toggle -->
+                <button onclick="toggleFullscreen()" class="p-2 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-emerald-200 transition" title="ফুলস্ক্রিন">
+                    <i data-lucide="maximize" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Progress bar for Presentation mode -->
+        <div id="progressBarContainer" class="w-full bg-emerald-950 h-1.5">
+            <div id="progressBar" class="bg-gradient-to-r from-amber-400 to-amber-200 h-1.5 transition-all duration-300 w-0"></div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-6xl w-full mx-auto p-3 sm:p-6 flex flex-col justify-center">
+
+        <!-- PRESENTATION SLIDES VIEW -->
+        <div id="slideView" class="w-full relative min-h-[550px] flex flex-col justify-between pb-20">
+            
+            <!-- Dynamic Slide Canvas -->
+            <div id="slideContainer" class="bg-white rounded-2xl shadow-xl border border-emerald-100 p-5 sm:p-8 md:p-10 slide-transition flex-1 flex flex-col justify-between mb-2">
+                <!-- Inner slide content injects here dynamically -->
+            </div>
+
+            <!-- Slide Navigation Bar (Fixed at viewport bottom) -->
+            <div id="slideControls" class="fixed bottom-12 left-1/2 -translate-x-1/2 w-[calc(100%-1.5rem)] sm:w-[calc(100%-3rem)] max-w-6xl z-30 bg-emerald-900/95 backdrop-blur-md text-white rounded-xl p-3 shadow-2xl flex items-center justify-between gap-2 border border-emerald-700 border-t border-amber-500/20">
+                <button onclick="prevSlide()" id="prevBtn" class="px-4 py-2 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-amber-300 disabled:opacity-40 disabled:cursor-not-allowed font-medium transition flex items-center gap-2">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    <span class="hidden sm:inline">পূর্ববর্তী</span>
+                </button>
+
+                <div class="flex items-center gap-2">
+                    <span id="slideIndicator" class="text-xs sm:text-sm font-semibold bg-emerald-950 px-3 py-1.5 rounded-full text-amber-300 border border-emerald-700">
+                        ১ / ১৩
+                    </span>
+                    <select id="slideSelect" onchange="goToSlide(parseInt(this.value))" class="bg-emerald-800 text-emerald-100 text-xs sm:text-sm rounded-lg px-2 py-1.5 border border-emerald-700 focus:outline-none focus:ring-1 focus:ring-amber-400">
+                        <!-- Options generated dynamically -->
+                    </select>
+                </div>
+
+                <button onclick="nextSlide()" id="nextBtn" class="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-emerald-950 font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-2 shadow-md">
+                    <span class="hidden sm:inline">পরবর্তী</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- ALL-IN-ONE DOCUMENT VIEW (Hidden by default) -->
+        <div id="docView" class="hidden w-full bg-white rounded-2xl shadow-xl border border-emerald-100 p-6 sm:p-10 space-y-10 my-4">
+            <div class="text-center border-b pb-6 border-slate-200">
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-emerald-900 mb-2">ইসলামী ব্যাংক ট্রেনিং এন্ড রিসার্চ একাডেমী</h1>
+                <h2 class="text-xl font-bold text-amber-600">তালিমুল কোরআন</h2>
+                <p class="text-sm text-slate-500 mt-2">বিশুদ্ধ কোরআন তেলাওয়াত শিক্ষা ম্যানুয়াল</p>
+            </div>
+
+            <div id="docContainer" class="space-y-12">
+                <!-- All slides stacked for standard doc view -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Table of Contents Modal -->
+    <div id="tocModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[85vh] flex flex-col border border-emerald-200 overflow-hidden">
+            <div class="p-4 bg-emerald-900 text-white flex justify-between items-center border-b border-amber-500/30">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="book-marked" class="w-5 h-5 text-amber-400"></i>
+                    <h3 class="font-bold text-lg text-amber-200">বিষয়সূচী (সূচিপত্র)</h3>
+                </div>
+                <button onclick="toggleTocModal()" class="p-1 rounded-lg hover:bg-emerald-800 text-emerald-200 transition">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Search Bar in TOC Modal -->
+            <div class="p-3 bg-slate-50 border-b border-slate-200">
+                <div class="relative">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
+                    <input type="text" id="tocSearchInput" oninput="filterToc(this.value)" placeholder="বিষয়বস্তু খুঁজুন (যেমন: মাদ, মাখরাজ, কুনূত)..." class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                </div>
+            </div>
+
+            <div class="p-4 overflow-y-auto space-y-2 flex-1" id="tocList">
+                <!-- TOC Items loaded dynamically -->
+            </div>
+            <div class="p-3 bg-slate-50 border-t text-center text-xs text-slate-500">
+                স্লাইডে ক্লিক করে সরাসরি সেই বিষয়ে যান
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-emerald-950 text-emerald-300/80 text-xs py-3 border-t border-emerald-900">
+        <div class="max-w-6xl mx-auto px-4 text-center flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div>© Islami Bank Training & Research Academy</div>
+            <div class="flex items-center space-x-3 text-amber-300">
+                <span><i data-lucide="keyboard" class="w-3.5 h-3.5 inline mr-1"></i>কীবোর্ড Navigation (← / →)</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        let isDocView = false;
+        let fontScale = 100;
+        let bookmarks = JSON.parse(localStorage.getItem('talimul_quran_bookmarks') || '[]');
+
+        // Audio synthesizer using Web Audio API to pronounce letters/tones nicely
+        function playTone(freq = 440, duration = 0.3) {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {
+                console.log('Audio playback not supported:', e);
+            }
+        }
+
+        function speakText(text) {
+            playTone(520, 0.2);
+        }
+
+        // Complete Slide Content Data
+        const slidesData = [
+            {
+                id: 1,
+                title: "প্রচ্ছদ ও শিরোনাম",
+                icon: "sparkles",
+                content: `
+                    <div class="text-center my-auto py-8 flex flex-col items-center justify-center space-y-6">
+                        <div class="w-24 h-24 rounded-full bg-emerald-100 border-4 border-amber-400 flex items-center justify-center shadow-lg text-emerald-800">
+                            <i data-lucide="book-open-check" class="w-12 h-12"></i>
+                        </div>
+                        <div class="space-y-3 max-w-2xl">
+                            <span class="inline-block px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs uppercase tracking-wider border border-emerald-200">
+                                কোর্স ম্যানুয়াল
+                            </span>
+                            <h1 class="text-3xl sm:text-5xl font-black text-emerald-900 leading-tight">
+                                ইসলামী ব্যাংক ট্রেনিং এন্ড রিসার্চ একাডেমী
+                            </h1>
+                            <h2 class="text-2xl sm:text-4xl font-extrabold text-amber-600 font-bengali">
+                                তালিমুল কোরআন
+                            </h2>
+                        </div>
+                        <p class="text-slate-600 text-sm sm:text-base max-w-xl leading-relaxed bg-emerald-50 p-4 rounded-xl border border-emerald-200">
+                            বিশুদ্ধভাবে পবিত্র কোরআন কারীম তেলাওয়াত, মাখরাজ, মাদ এবং তাজবীদ শিক্ষার সহজ ও পরিচ্ছন্ন স্লাইড ডেক।
+                        </p>
+                        <div class="pt-4 flex flex-wrap gap-3 justify-center">
+                            <button onclick="nextSlide()" class="px-6 py-3 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-amber-300 font-bold text-lg shadow-xl transition flex items-center gap-2">
+                                শিক্ষা শুরু করুন <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                title: "আরবী ২৯টি হরফ (Arabic 29 Letters)",
+                icon: "grid",
+                content: `
+                    <div class="space-y-4">
+                        <div class="border-b border-emerald-100 pb-3 flex justify-between items-center">
+                            <div>
+                                <h3 class="text-xl sm:text-2xl font-bold text-emerald-900 flex items-center gap-2">
+                                    <span class="bg-emerald-800 text-amber-300 p-1.5 rounded-lg text-base">০১</span>
+                                    আরবী ২৯টি হরফ
+                                </h3>
+                                <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                                    কোরআন কারীম সঠিক ও বিশুদ্ধভাবে তেলাওয়াত শেখার জন্য সর্বপ্রথম আরবী ২৯টি হরফ চেনা আবশ্যক: (হরফে ক্লিক করে উচ্চারণ শুনুন)
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 29 Harf Cards Grid (Pure Arabic Letters) -->
+                        <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2.5 sm:gap-3.5 direction-rtl" style="direction: rtl;">
+                            ${[
+                                { s: 'ا', n: 'আলিফ', f: 260 }, { s: 'ب', n: 'বা', f: 280 }, { s: 'ت', n: 'তা', f: 300 }, { s: 'ث', n: 'ছা', f: 320 },
+                                { s: 'ج', n: 'জীম', f: 340 }, { s: 'ح', n: 'হা', f: 360 }, { s: 'خ', n: 'খা', f: 380 }, { s: 'د', n: 'দাল', f: 400 },
+                                { s: 'ذ', n: 'যাল', f: 420 }, { s: 'ر', n: 'র', f: 440 }, { s: 'ز', n: 'যা', f: 460 }, { s: 'س', n: 'সীন', f: 480 },
+                                { s: 'ش', n: 'শীন', f: 500 }, { s: 'ص', n: 'সোয়াদ', f: 520 }, { s: 'ض', n: 'দোয়াদ', f: 540 }, { s: 'ط', n: 'তোয়া', f: 560 },
+                                { s: 'ظ', n: 'জোয়া', f: 580 }, { s: 'ع', n: 'আইন', f: 600 }, { s: 'غ', n: 'গাইন', f: 620 }, { s: 'ف', n: 'ফা', f: 640 },
+                                { s: 'ق', n: 'ক্বাফ', f: 660 }, { s: 'ك', n: 'কাফ', f: 680 }, { s: 'ل', n: 'লাম', f: 700 }, { s: 'م', n: 'মীম', f: 720 },
+                                { s: 'ن', n: 'নূন', f: 740 }, { s: 'و', n: 'ওয়াও', f: 760 }, { s: 'هـ', n: 'হা', f: 780 }, { s: 'ء', n: 'হামযাহ', f: 800 },
+                                { s: 'ي', n: 'ইয়া', f: 820 }
+                            ].map(item => `
+                                <div onclick="speakText('${item.n}'); playTone(${item.f}, 0.25);" class="bg-gradient-to-b from-emerald-50 to-emerald-100/60 border border-emerald-200 rounded-xl py-3 px-2 text-center shadow-sm hover:shadow-md hover:scale-105 hover:bg-amber-50 hover:border-amber-300 transition cursor-pointer group flex items-center justify-center min-h-[72px]">
+                                    <div class="arabic-text text-3xl sm:text-4xl font-bold text-emerald-950 leading-none group-hover:text-amber-600 transition">${item.s}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                title: "হরকত ও মাদ পরিচিতি (মাদের হরফ ৩টি)",
+                icon: "bookmark",
+                content: `
+                    <div class="space-y-5">
+                        <div class="border-b border-emerald-100 pb-3">
+                            <h3 class="text-xl sm:text-2xl font-bold text-emerald-900">হরকত ও মাদের মৌলিক আলোচনা</h3>
+                            <p class="text-xs sm:text-sm text-slate-600">কোরআন তেলাওয়াতের উচ্চারণ গতি ও টানের নিয়মাবলী</p>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <!-- Harakat Card -->
+                            <div class="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-5 space-y-3">
+                                <div class="flex items-center gap-2 text-emerald-800 font-bold text-lg">
+                                    <i data-lucide="zap" class="w-5 h-5 text-amber-500"></i>
+                                    <h4>হরকত কাকে বলে?</h4>
+                                </div>
+                                <p class="text-sm text-slate-700 leading-relaxed">
+                                    এক যবর (<span class="arabic-text text-xl"> َ </span>), এক যের (<span class="arabic-text text-xl"> ِ </span>), এক পেশ (<span class="arabic-text text-xl"> ُ </span>) কে <strong>হরকত</strong> বলে।
+                                </p>
+                                <div class="bg-amber-100/70 border-l-4 border-amber-500 p-2.5 rounded text-xs font-semibold text-amber-900">
+                                    নিয়ম: হরকতের উচ্চারণ তাড়াতাড়ি পড়তে হয়।
+                                </div>
+                                <div class="p-3 bg-white rounded-xl border border-emerald-100 text-center">
+                                    <span class="text-xs text-slate-500 block mb-1">উদাহরণ:</span>
+                                    <span class="arabic-text text-3xl font-bold text-emerald-900">بَ بِ بُ</span>
+                                </div>
+                            </div>
+
+                            <!-- Madd Card -->
+                            <div class="bg-amber-50/60 border border-amber-200 rounded-2xl p-5 space-y-3">
+                                <div class="flex items-center gap-2 text-amber-900 font-bold text-lg">
+                                    <i data-lucide="volume-2" class="w-5 h-5 text-amber-600"></i>
+                                    <h4>মাদ কাকে বলে?</h4>
+                                </div>
+                                <p class="text-sm text-slate-700 leading-relaxed">
+                                    হরকতের উচ্চারণ টেনে পড়াকে <strong>মাদ</strong> বলে।
+                                </p>
+                                <div class="p-3 bg-white rounded-xl border border-amber-200 text-center">
+                                    <span class="text-xs text-slate-500 block mb-1">উদাহরণ:</span>
+                                    <span class="arabic-text text-3xl font-bold text-emerald-900">بَا بُو بِي</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Madd Letters Box (Explicitly highlighting the 3 Madd letters) -->
+                        <div class="bg-emerald-900 text-white rounded-2xl p-5 shadow-md">
+                            <h4 class="font-bold text-amber-300 text-lg mb-2 flex items-center gap-2">
+                                <i data-lucide="star" class="w-5 h-5 text-amber-400"></i>
+                                মাদের হরফ ৩টি:
+                            </h4>
+                            <ul class="grid sm:grid-cols-3 gap-3 text-sm">
+                                <li class="bg-emerald-800/80 p-3.5 rounded-xl border border-emerald-700 flex items-center justify-between shadow-sm">
+                                    <div>
+                                        <div class="font-bold text-amber-200">১. আলিফ (ا)</div>
+                                        <div class="text-xs text-emerald-100 mt-0.5">যবরের বাম পাশে খালি আলিফ</div>
+                                    </div>
+                                    <span class="arabic-text text-3xl font-bold text-amber-300">( ا )</span>
+                                </li>
+                                <li class="bg-emerald-800/80 p-3.5 rounded-xl border border-emerald-700 flex items-center justify-between shadow-sm">
+                                    <div>
+                                        <div class="font-bold text-amber-200">২. ইয়া (ي)</div>
+                                        <div class="text-xs text-emerald-100 mt-0.5">যেেরর বাম পাশে যঝম ওয়ালা ইয়া</div>
+                                    </div>
+                                    <span class="arabic-text text-3xl font-bold text-amber-300">( ِيْ )</span>
+                                </li>
+                                <li class="bg-emerald-800/80 p-3.5 rounded-xl border border-emerald-700 flex items-center justify-between shadow-sm">
+                                    <div>
+                                        <div class="font-bold text-amber-200">৩. ওয়াও (و)</div>
+                                        <div class="text-xs text-emerald-100 mt-0.5">পেশের বাম পাশে যঝম ওয়ালা ওয়াও</div>
+                                    </div>
+                                    <span class="arabic-text text-3xl font-bold text-amber-300">( ُوْ )</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                title: "মাদের প্রকারভেদ ও ১ আলিফ মাদ",
+                icon: "layers",
+                content: `
+                    <div class="space-y-4">
+                        <div class="border-b border-emerald-100 pb-2">
+                            <h3 class="text-xl sm:text-2xl font-bold text-emerald-900">এক আলিফ মাদ (৩ প্রকার)</h3>
+                            <p class="text-xs sm:text-sm text-slate-600">মাদ মোট ১০ প্রকার (১ আলিফ, ৩ আলিফ, ৪ আলিফ)</p>
+                        </div>
+
+                        <div class="grid gap-3.5">
+                            <!-- 1. Madd-e-Tabayee -->
+                            <div class="bg-white border-l-4 border-emerald-600 p-4 rounded-r-xl shadow-sm border border-slate-200">
+                                <h4 class="font-bold text-emerald-900 text-base mb-1">১. মাদ্দে ত্ববায়ী</h4>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed mb-2">
+                                    যবরের বাম পাশে খালি আলিফ (ا), যেরের বাম পাশে যঝম ওয়ালা ইয়া (ِي), পেশের বাম পাশে যঝম ওয়ালা ওয়াও (ُو) মাদের হরফ। মাদের হরফ হলে তার ডান দিকের হরকতকে এক আলিফ টেনে পড়তে হয়, তাকে মাদ্দে ত্ববায়ী বলে।
+                                </p>
+                                <div class="flex flex-wrap items-center justify-between gap-2 bg-emerald-50 p-2.5 rounded-lg">
+                                    <span class="text-xs font-semibold text-emerald-800">যেমন:-</span>
+                                    <span class="arabic-text text-2xl font-bold text-emerald-950">بَا بِي بُو</span>
+                                </div>
+                                <p class="text-xs text-amber-800 mt-2 bg-amber-50 p-2 rounded border border-amber-200">
+                                    <strong>নোট:</strong> খাড়া যবর ( ٰ ), খাড়া যের ( ٖ ), উল্টাপেশ ( ٗ ) হইলেও এক আলিফ টেনে পড়তে হয়, তাকেও মাদ্দে ত্ববায়ী বলে।
+                                </p>
+                            </div>
+
+                            <!-- 2. Madd-e-Badal -->
+                            <div class="bg-white border-l-4 border-emerald-600 p-4 rounded-r-xl shadow-sm border border-slate-200">
+                                <h4 class="font-bold text-emerald-900 text-base mb-1">২. মাদ্দে বদল</h4>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed mb-2">
+                                    হামঝার হরকতের সঙ্গে এক আলিফ টেনে যেই মাদ পড়া যায় তাকে মাদ্দে বদল বলে।
+                                </p>
+                                <div class="flex flex-wrap items-center justify-between gap-2 bg-emerald-50 p-2.5 rounded-lg">
+                                    <span class="text-xs font-semibold text-emerald-800">যেমন:-</span>
+                                    <span class="arabic-text text-2xl font-bold text-emerald-950">آمَنَ, أُوتِيَ, إِيمَانًا</span>
+                                </div>
+                            </div>
+
+                            <!-- 3. Madd-e-Leen -->
+                            <div class="bg-white border-l-4 border-emerald-600 p-4 rounded-r-xl shadow-sm border border-slate-200">
+                                <h4 class="font-bold text-emerald-900 text-base mb-1">৩. মাদ্দে লীন</h4>
+                                <p class="text-xs sm:text-sm text-slate-700 leading-relaxed mb-1">
+                                    লীনের হরফ ২টি: (و, ي)। যবরের বাম পাশে যঝম ওয়ালা ওয়াও ( َوْ ) বা ইয়া ( َيْ ) লীনের হরফ। লীনের হরফের বামের হরফে ওয়াক্ফ হলে এক আলিফ টেনে পড়তে হয়, তাকে মাদ্দে লীন বলে।
+                                </p>
+                                <div class="flex flex-wrap items-center justify-between gap-2 bg-emerald-50 p-2.5 rounded-lg mt-2">
+                                    <span class="text-xs font-semibold text-emerald-800">যেমন:-</span>
+                                    <span class="arabic-text text-2xl font-bold text-emerald-950">خَوْفٍ, بَيْتٍ</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 5,
+                title: "তিন আলিফ মাদ (২ প্রকার)",
+                icon: "chevrons-right",
+                content: `
+                    <div class="space-y-5">
+                        <div class="border-b border-emerald-100 pb-3">
+                            <h3 class="text-xl sm:text-2xl font-bold text-emerald-900">তিন আলিফ মাদ (২ প্রকার)</h3>
+                            <p class="text-xs sm:text-sm text-slate-600">যে সকল স্থানে ৩ আলিফ পরিমাণ দীর্ঘ করে টানতে হয়</p>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-5">
+                            <!-- Madd-e-Aarzee -->
+                            <div class="bg-gradient-to-br from-amber-50 to-white border border-amber-200 rounded-2xl p-5 shadow-sm space-y-3">
+                                <div class="inline-block px-3 py-1 bg-amber-500 text-emerald-950 font-bold text-xs rounded-full">
+                                    ১ম প্রকার
+                                </div>
+                                <h4 class="text-lg font-bold text-emerald-900">মাদ্দে আরজী</h4>
+                                <p class="text-sm text-slate-700 leading-relaxed">
+                                    মাদের হরফের বামের হরফে ওয়াক্ফ (থামা) হলে তিন আলিফ টেনে পড়তে হয়, তাকে মাদ্দে আরজী বলে।
+                                </p>
+                                <div class="p-4 bg-white rounded-xl border border-amber-200 text-center shadow-inner">
+                                    <span class="text-xs text-slate-500 block mb-1">উদাহরণ:</span>
+                                    <span class="arabic-text text-3xl font-bold text-emerald-900">نَاسِ, رَحِيمٌ, شَكُورٌ</span>
+                                </div>
+                            </div>
+
+                            <!-- Madd-e-Munfaseel -->
+                            <div class="bg-gradient-to-br from-amber-50 to-white border border-amber-200 rounded-2xl p-5 shadow-sm space-y-3">
+                                <div class="inline-block px-3 py-1 bg-amber-500 text-emerald-950 font-bold text-xs rounded-full">
+                                    ২য় প্রকার
+                                </div>
+                                <h4 class="text-lg font-bold text-emerald-900">মাদ্দে মুনফাছীল</h4>
+                                <p class="text-sm text-slate-700 leading-relaxed">
+                                    মাদের হরফের বামে পৃথক শব্দে আলিফ ( أَ ) থাকলে তিন আলিফ টেনে পড়তে হয়, তাকে মাদ্দে মুনফাছীল বলে।
+                                </p>
+                                <div class="p-4 bg-white rounded-xl border border-amber-200 text-center shadow-inner">
+                                    <span class="text-xs text-slate-500 block mb-1">উদাহরণ:</span>
+                                    <span class="arabic-text text-3xl font-bold text-emerald-900">مَا أَغْنَى, لَا أَعْبُدُ</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 6,
+                title: "চার আলিফ মাদ (৫ প্রকার)",
+                icon: "maximize-2",
+                content: `
+                    <div class="space-y-4">
+                        <div class="border-b border-emerald-100 pb-2">
+                            <h3 class="text-xl sm:text-2xl font-bold text-emerald-900">চার আলিফ মাদ (৫ প্রকার)</h3>
+                            <p class="text-xs sm:text-sm text-slate-600">সবচেয়ে দীর্ঘ ৪ আলিফ টেনে পড়ার নিয়মাবলী</p>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                            <div class="bg-white border border-emerald-200 rounded-xl p-3.5 shadow-sm space-y-1.5">
+                                <h4 class="font-bold text-emerald-900 text-sm">১. মাদ্দে লাযিম হরফী মুখাফ্ফাফ</h4>
+                                <p class="text-xs text-slate-600">হরফের বামে তাশদীদ না থাকিলে হরফকে চার আলিফ টেনে পড়তে হয়।</p>
+                                <div class="arabic-text text-2xl font-bold text-emerald-900 bg-emerald-50 p-2 rounded text-center">ن, الم, عٓسٓقٓ</div>
+                            </div>
+
+                            <div class="bg-white border border-emerald-200 rounded-xl p-3.5 shadow-sm space-y-1.5">
+                                <h4 class="font-bold text-emerald-900 text-sm">২. মাদ্দে লাযিম হরফী মুছাক্কাল</h4>
+                                <p class="text-xs text-slate-600">হরফের বামে তাশদীদ থাকলে হরফকে চার আলিফ টেনে পড়তে হয়।</p>
+                                <div class="arabic-text text-2xl font-bold text-emerald-900 bg-emerald-50 p-2 rounded text-center">الم, طسم</div>
+                            </div>
+
+                            <div class="bg-white border border-emerald-200 rounded-xl p-3.5 shadow-sm space-y-1.5">
+                                <h4 class="font-bold text-emerald-900 text-sm">৩. মাদ্দে লাযিম কালমী মুছাক্কাল</h4>
+                                <p class="text-xs text-slate-600">কালিমার মাদের হরফের বামে তাশদীদ থাকলে চার আলিফ টেনে পড়তে হয়।</p>
+                                <div class="arabic-text text-2xl font-bold text-emerald-900 bg-emerald-50 p-2 rounded text-center">ضَالِّينَ, حَاجَّكَ</div>
+                            </div>
+
+                            <div class="bg-white border border-emerald-200 rounded-xl p-3.5 shadow-sm space-y-1.5">
+                                <h4 class="font-bold text-emerald-900 text-sm">৪. মাদ্দে লাযিম কালমী মুখাফ্ফাফ</h4>
+                                <p class="text-xs text-slate-600">কালিমার মাদের হরফের বামে যঝম থাকলে চার আলিফ টেনে পড়তে হয়।</p>
+                                <div class="arabic-text text-2xl font-bold text-emerald-900 bg-emerald-50 p-2 rounded text-center">آلْآنَ</div>
+                            </div>
+
+                            <div class="bg-white border border-emerald-200 rounded-xl p-3.5 shadow-sm space-y-1.5 sm:col-span-2 lg:col-span-1">
+                                <h4 class="font-bold text-emerald-900 text-sm">৫. মাদ্দে মুত্তাছীল</h4>
+                                <p class="text-xs text-slate-600">মাদের হরফের বামে একই শব্দে গোল হামঝাহ ( ء ) থাকলে চার আলিফ টেনে পড়তে হয়।</p>
+                                <div class="arabic-text text-2xl font-bold text-emerald-900 bg-emerald-50 p-2 rounded text-center">جَاءَ, سِيءَ, سُوءٍ</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 7,
+                title: "ওয়াজিব গুন্নাহ, আল্লাহ শব্দ ও কলকলা",
+                icon: "shield-alert",
+                content: `
+                    <div class="space-y-4">
+                        <div class="border-b border-emerald-100 pb-2">
+                            <h3 class="text-xl sm:text-2xl font-bold text-emerald-900">ওয়াজিব গুন্নাহ, আল্লাহ শব্দ ও কলকলা</h3>
+                        </div>
+
+                        <!-- Wajib Gunnah -->
+                        <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl space-y-2">
+                            <h4 class="font-bold text-amber-900 text-base flex items-center gap-2">
+                                <i data-lucide="bell" class="w-4 h-4 text-amber-600"></i>
+                                ওয়াজিব গুন্নাহ কাকে বলে?
+                            </h4>
+                            <p class="text-xs sm:text-sm text-slate-700">
+                                <strong>উত্তর:</strong> হরকতের বামে নূনে (<span class="arabic-text text-xl"> نّ </span>) বা মীমে (<span class="arabic-text text-xl"> مّ </span>) তাশদীদ থাকিলে গুন্নাহ করে পড়তে হয়, তাকে ওয়াজিব গুন্নাহ বলে।
+                            </p>
+                            <div class="bg-white p-2 rounded border border-amber-200 flex justify-between items-center">
+                                <span class="text-xs font-semibold text-slate-500">যেমন:</span>
+                                <span class="arabic-text text-2xl font-bold text-emerald-900">أَنَّهُمْ, وَالنَّاسِ, حَمَّالَةَ, مِمَّا</span>
+                            </div>
+                        </div>
+
+                        <!-- Allah Word Rule -->
+                        <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl space-y-2">
+                            <h4 class="font-bold text-emerald-900 text-base">আল্লাহ শব্দের লাম পড়া (পোর ও বারিক)</h4>
+                            <div class="grid sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                                <div class="bg-white p-3 rounded-lg border border-emerald-100">
+                                    <span class="font-bold text-emerald-800 block mb-1">১. পোর (মোটা):</span>
+                                    আল্লাহ শব্দের ডানে যবর বা পেশ থাকলে ঐ লামকে পোর করে পড়তে হয়।
+                                    <div class="arabic-text text-xl font-bold text-emerald-900 mt-2">هُوَ اللَّهُ, هُمُ اللَّهُ, يَدُ اللَّهِ</div>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border border-emerald-100">
+                                    <span class="font-bold text-emerald-800 block mb-1">২. বারিক (পাতলা):</span>
+                                    আল্লাহ শব্দের ডানে শুধু মাত্র যের থাকলে ঐ লামকে বারিক করে পড়তে হয়।
+                                    <div class="arabic-text text-xl font-bold text-emerald-900 mt-2">بِاللَّهِ</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Qalqalah -->
+                        <div class="bg-white border border-slate-200 p-4 rounded-xl space-y-2 shadow-sm">
+                            <h4 class="font-bold text-emerald-900 text-base">কলকলার হরফ ৫টি: ( ق, ط, ب, ج, د )</h4>
+                            <p class="text-xs sm:text-sm text-slate-700">এই ৫ হরফে যঝম হলে কলকলা (প্রতিধ্বনি সৃষ্টি) করে পড়তে হয়।</p>
+                            <div class="bg-slate-50 p-2.5 rounded border flex justify-between items-center">
+                                <span class="text-xs font-semibold text-slate-500">যেমন:</span>
+                                <span class="arabic-text text-2xl font-bold text-emerald-900">اقْرَأْ, بَطْشَ, حَبْلٌ, فَجْرٍ, أَدْرَكَ</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 8,
+                title: "নূন সাকিন ও তানভীন (ইকলাব ও ইদগাম)",
+                icon: "git-merge",
+                content: `
+                    <div class="space-y-4">
+                        <div class="border-b border-emerald-100 pb-2">
+                            <h3 class="text-xl sm:text-2xl font-bold text-emerald-900">নূন সাকিন ও তানভীন (১ম অংশ)</h3>
+                            <p class="text-xs sm:text-sm text-slate-600">
+                                <strong>নূন সাকিন:</strong> যঝম ওয়ালা নূন ( نْ ) | <strong>তানভীন:</strong> দুই যবর ( ً ), দুই যের ( ٍ ), দুই পেশ ( ٌ )
+                            </p>
+                        </div>
+
+                        <div class="bg-amber-100/60 p-3 rounded-xl border border-amber-300 text-xs sm:text-sm font-semibold text-amber-950">
+                            নূন সাকিন ও তানভীন ৪ প্রকারে পড়া যায়: ১. ইকলাব, ২. ইদগাম, ৩. ইজহার, ৪. ইখফা
+                        </div>
+
+                        <!-- 1. Iqlab -->
+                        <div class="bg-white border-l-4 border-amber-500 p-4 rounded-r-xl border border-slate-200 space-y-2">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-emerald-900 text-base">১. ইকলাব (পরিবর্তন করে পড়া)</h4>
+                                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded">হরফ ১টি: ب</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700">
+                                নূনে সাকিন এবং তানভীনের বামে ইকলাবের হরফ ( ب ) আসলে, নূনে সাকিন ও তানভীনকে মীম ( م ) দ্বারা পরিবর্তন করে গুন্নার সহিত পড়তে হয়।
+                            </p>
+                            <div class="arabic-text text-2xl font-bold text-emerald-900 bg-emerald-50 p-2 rounded text-center">مِنْ بَعْدِ, سَمِيعٌ بَصِيرٌ</div>
+                        </div>
+
+                        <!-- 2. Idgham -->
+                        <div class="bg-white border-l-4 border-emerald-600 p-4 rounded-r-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold text-emerald-900 text-base">২. ইদগাম (মিলাইয়া পড়া) - ২ প্রকার</h4>
+                                <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded">হরফ ৬টি: (ي ر م ل و ن)</span>
+                            </div>
+
+                            <div class="grid sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                                <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-200">
+                                    <span class="font-bold text-emerald-900 block mb-1">ক. ইদগামে বাগুন্নাহ (গুন্নাহসহ):</span>
+                                    হরফ ৪টি (ي م و ن)। গুন্নাহ সহ মিলিয়ে পড়তে হয়।
+                                    <div class="arabic-text text-xl font-bold text-emerald-900 mt-2">مَنْ يَقُولُ, مِنْ وَالٍ</div>
+                                </div>
+                                <div class="bg-amber-50 p-3 rounded-lg border border-amber-200">
+                                    <span class="font-bold text-amber-900 block mb-1">খ. ইদগামে বেলাগুন্নাহ (গুন্নাহ ছাড়া):</span>
+                                    হরফ ২টি (ر ل)। গুন্নাহ ছাড়া মিলিয়ে পড়তে হয়।
+                                    <div class="arabic-text text-xl font-bold text-emerald-900 mt-2">مِنْ رَبِّكَ, مِنْ لَدُنْهُ</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 9,
+                title: "নূন সাকিন ও তানভীন (ইজহার ও ইখফা)",
+                icon: "eye-off",
+                content: `
+                    <div class="space-y-4">
+                        <div class="border-b border-emerald-100 pb-2">
+                            <h3 class="text-xl sm:text-2xl font-bold text-emerald-900">নূন সাকিন ও তানভীন (২য় অংশ)</h3>
+                        </div>
+
+                        <!-- 3. Izhar -->
+                        <div class="bg-white border-l-4 border-blue-600 p-4 rounded-r-xl border border-slate-200 space-y-2">
+                            <div class="flex justify-between items-center flex-wrap gap-1">
+                                <h4 class="font-bold text-emerald-900 text-base">৩. ইজহার (স্পষ্ট করে পড়া)</h4>
+                                <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded">হরফ ৬টি: (ء ه ع ح غ خ)</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700">
+                                নূনে সাকিন অথবা তানভীনের বামে ইজহারের ছয় হরফের যেকোন একটি হরফ আসলে নূনে সাকিন অথবা তানভীনকে গুন্না ছাড়া স্পষ্ট করে পড়তে হয়।
+                            </p>
+                            <div class="arabic-text text-2xl font-bold text-emerald-900 bg-blue-50/60 p-2.5 rounded text-center">
+                                مَنْ آمَنَ, مِنْهُمْ, أَنْعَمْتَ, حَاسِدٍ إِذَا
+                            </div>
+                        </div>
+
+                        <!-- 4. Ikhfa -->
+                        <div class="bg-white border-l-4 border-purple-600 p-4 rounded-r-xl border border-slate-200 space-y-2">
+                            <div class="flex justify-between items-center flex-wrap gap-1">
+                                <h4 class="font-bold text-emerald-900 text-base">৪. ইখফা (গোপন করে পড়া)</h4>
+                                <span class="bg-purple-100 text-purple-800 text-xs font-bold px-2.5 py-1 rounded">হরফ ১৫টি</span>
+                            </div>
+                            <p class="text-xs text-purple-900 font-semibold bg-purple-50 p-2 rounded">
+                                হরফসমূহ: ত, ছ, জ, দ, য, জ, স, শ, স্ব, দ্ব, ত্ব, জ্ব, ফ, ক, খ (ت ث ج د ذ ز س ش ص ض ط ظ ف ق ك)
+                            </p>
+                            <p class="text-xs sm:text-sm text-slate-700">
+                                নূনে সাকিন অথবা তানভীনের বামে ইখফার ১৫ হরফের যেকোন একটি আসলে নাকের ভিতর লুকিয়ে গুন্নার সহিত পড়তে হয়।
+                            </p>
+                            <div class="arabic-text text-2xl font-bold text-emerald-900 bg-purple-50/60 p-2.5 rounded text-center">
+                                مِنْكُمْ, عِنْدَكَ, جَنَّاتٍ تَجْرِي, نَارًا ذَاتَ
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 10,
+                title: "মীম সাকিন এর নিয়মাবলী",
+                icon: "square",
+                content: `
+                    <div class="space-y-4">
+                        <div class="border-b border-emerald-100 pb-2">
+                            <h3 class="text-xl sm:text-2xl font-bold text-emerald-900">মীম সাকিনের নিয়মাবলী</h3>
+                            <p class="text-xs sm:text-sm text-slate-600">
+                                <strong>মীম সাকিন:</strong> যঝম (<span class="arabic-text text-lg"> مْ </span>) ওয়ালা মীমকে মীম সাকিন বলে। এটি ৩ প্রকারে পড়া যায়:
+                            </p>
+                        </div>
+
+                        <div class="grid sm:grid-cols-3 gap-3">
+                            <!-- Meem Ikhfa -->
+                            <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl space-y-2">
+                                <div class="font-bold text-emerald-900 text-sm">১. মীম সাকিনের ইখফা</div>
+                                <span class="inline-block bg-emerald-200 text-emerald-900 text-xs font-bold px-2 py-0.5 rounded">হরফ ১টি: ب</span>
+                                <p class="text-xs text-slate-700">মীম সাকিনের বামে ب আসলে মীম সাকিনকে গুন্নাহ করে পড়তে হয়।</p>
+                                <div class="arabic-text text-xl font-bold text-emerald-900 bg-white p-2 rounded text-center border">
+                                    رَبَّهُمْ بِهِمْ
+                                </div>
+                            </div>
+
+                            <!-- Meem Idgham -->
+                            <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl space-y-2">
+                                <div class="font-bold text-amber-900 text-sm">২. মীম সাকিনের ইদগাম</div>
+                                <span class="inline-block bg-amber-200 text-amber-900 text-xs font-bold px-2 py-0.5 rounded">হরফ ১টি: م</span>
+                                <p class="text-xs text-slate-700">মীম সাকিনের বামে م আসলে দ্বিতীয় মীমে তাশদীদ দিয়ে গুন্নাহ সহ মিলিয়ে পড়তে হয়।</p>
+                                <div class="arabic-text text-xl font-bold text-emerald-900 bg-white p-2 rounded text-center border">
+                                    أَطْعَمَهُمْ مِنْ جُوعٍ
+                                </div>
+                            </div>
+
+                            <!-- Meem Izhar -->
+                            <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl space-y-2">
+                                <div class="font-bold text-blue-900 text-sm">৩. মীম সাকিনের ইজহার</div>
+                                <span class="inline-block bg-blue-200 text-blue-900 text-xs font-bold px-2 py-0.5 rounded">বাকি ২৬টি হরফ</span>
+                                <p class="text-xs text-slate-700">ب ও م ব্যতীত অন্য হরফ আসলে গুন্নাহ ছাড়া স্পষ্ট করে পড়তে হয়।</p>
+                                <div class="arabic-text text-xl font-bold text-emerald-900 bg-white p-2 rounded text-center border">
+                                    الْحَمْدُ, أَلَمْ تَرَى
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 11,
+                title: "মাখরাজ (১৭টি মাখরাজ - ১ম অংশ)",
+                icon: "mic",
+                content: `
+                    <div class="space-y-4">
+                        <div class="border-b border-emerald-100 pb-2 flex justify-between items-center">
+                            <div>
+                                <h3 class="text-xl sm:text-2xl font-bold text-emerald-900">মাখরাজ (১৭টি মাখরাজ - ১ম অংশ)</h3>
+                                <p class="text-xs sm:text-sm text-slate-600">মাখরাজ অর্থ হরফ উচ্চারণের স্থান। আরবী হরফ ২৯টি, মাখরাজ ১৭টি।</p>
+                            </div>
+                            <span class="bg-emerald-800 text-amber-300 font-bold px-3 py-1 rounded-full text-xs">১ - ১০</span>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-2.5 text-xs sm:text-sm">
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-emerald-100 text-emerald-900 font-bold px-2 py-0.5 rounded text-xs">১</span>
+                                <div><strong>১ম মাখরাজ:</strong> হলকের শুরু হইতে .... <span class="arabic-text text-lg font-bold text-emerald-900">(ء ه)</span></div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-emerald-100 text-emerald-900 font-bold px-2 py-0.5 rounded text-xs">২</span>
+                                <div><strong>২য় মাখরাজ:</strong> হলকের মধ্যখান হইতে .... <span class="arabic-text text-lg font-bold text-emerald-900">(ع ح)</span></div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-emerald-100 text-emerald-900 font-bold px-2 py-0.5 rounded text-xs">৩</span>
+                                <div><strong>৩য় মাখরাজ:</strong> হলকের শেষ হইতে .... <span class="arabic-text text-lg font-bold text-emerald-900">(غ خ)</span></div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-emerald-100 text-emerald-900 font-bold px-2 py-0.5 rounded text-xs">৪</span>
+                                <div><strong>৪র্থ মাখরাজ:</strong> জ্বিব্বার গোড়া তার বরাবর উপরে তালুর সঙ্গে লাগাইয়া দুই নুকতা ওয়ালা .... <span class="arabic-text text-lg font-bold text-emerald-900">(ق)</span></div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-emerald-100 text-emerald-900 font-bold px-2 py-0.5 rounded text-xs">৫</span>
+                                <div><strong>৫ম মাখরাজ:</strong> জ্বিব্বার গোড়া থেকে একটু আগে বাড়াইয়া তার বরাবর উপরে তালুর সঙ্গে লাগাইয়া মধ্যখান পেছানো .... <span class="arabic-text text-lg font-bold text-emerald-900">(ك)</span></div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-emerald-100 text-emerald-900 font-bold px-2 py-0.5 rounded text-xs">৬</span>
+                                <div><strong>৬ষ্ঠ মাখরাজ:</strong> জ্বিব্বার মধ্যখান তার বরারব উপরে তালুর সঙ্গে লাগাইয়া .... <span class="arabic-text text-lg font-bold text-emerald-900">(ج ش ي)</span></div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-emerald-100 text-emerald-900 font-bold px-2 py-0.5 rounded text-xs">৭</span>
+                                <div><strong>৭ম মাখরাজ:</strong> জ্বিব্বার গোড়ার কিনারা সামনের উপরের দাঁতের মারির সঙ্গে লাগাইয়া .... <span class="arabic-text text-lg font-bold text-emerald-900">(ض)</span></div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-emerald-100 text-emerald-900 font-bold px-2 py-0.5 rounded text-xs">৮</span>
+                                <div><strong>৮ম মাখরাজ:</strong> জ্বিব্বার আগার কিনারা উপরে মাড়ির দাঁতের গোড়ার সাথে লাইগাইয়া .... <span class="arabic-text text-lg font-bold text-emerald-900">(ل)</span></div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-emerald-100 text-emerald-900 font-bold px-2 py-0.5 rounded text-xs">৯</span>
+                                <div><strong>৯ম মাখরাজ:</strong> জ্বিব্বার আগা তার বরাবর উপরে তালুর সঙ্গে লাগাইয়া .... <span class="arabic-text text-lg font-bold text-emerald-900">(ن)</span></div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-emerald-100 text-emerald-900 font-bold px-2 py-0.5 rounded text-xs">১০</span>
+                                <div><strong>১০ম মাখরাজ:</strong> জ্বিব্বার আগার উল্টা পিঠ তার বরাবর উপরে তালুর সঙ্গে লাগাইয়া .... <span class="arabic-text text-lg font-bold text-emerald-900">(ر)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 12,
+                title: "মাখরাজ (১৭টি মাখরাজ - ২য় অংশ)",
+                icon: "mic",
+                content: `
+                    <div class="space-y-4">
+                        <div class="border-b border-emerald-100 pb-2 flex justify-between items-center">
+                            <div>
+                                <h3 class="text-xl sm:text-2xl font-bold text-emerald-900">মাখরাজ (১৭টি মাখরাজ - ২য় অংশ)</h3>
+                            </div>
+                            <span class="bg-emerald-800 text-amber-300 font-bold px-3 py-1 rounded-full text-xs">১১ - ১৭</span>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-2.5 text-xs sm:text-sm">
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded text-xs">১১</span>
+                                <div><strong>১১শ মাখরাজ:</strong> জ্বিব্বার আগা সামনের উপরের দুই দাঁতের গোড়ার সাথে লাগাইয়া .... <span class="arabic-text text-lg font-bold text-emerald-900">(ط د ت)</span></div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded text-xs">১২</span>
+                                <div><strong>১২াশ মাখরাজ:</strong> জ্বিব্বার আগা সামনের নীচের দুই দাঁতের পেট ও আগার সাথে লাগাইয়া .... <span class="arabic-text text-lg font-bold text-emerald-900">(ص س ز)</span></div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded text-xs">১৩</span>
+                                <div><strong>১৩শ মাখরাজ:</strong> জ্বিব্বার আগা সামনের উপরের দুই দাঁতের আগার সাথে লাগাইয়া .... <span class="arabic-text text-lg font-bold text-emerald-900">(ظ ذ ث)</span></div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded text-xs">১৪</span>
+                                <div><strong>১৪শ মাখরাজ:</strong> নীচের ঠোটের পেট সামনের উপরের দুই দাঁতের আগার সাথে লাইগায়া .... <span class="arabic-text text-lg font-bold text-emerald-900">(ف)</span></div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded text-xs">১৫</span>
+                                <div><strong>১৫শ মাখরাজ:</strong> দুই ঠোট হইতে .... <span class="arabic-text text-lg font-bold text-emerald-900">(ب م و)</span> উচ্চারণ করিতে হয়।</div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2">
+                                <span class="bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded text-xs">১৬</span>
+                                <div><strong>১৬শ মাখরাজ:</strong> মুখের খালি জায়গা হইতে মাদের হরফ পড়া যায় .... <span class="arabic-text text-lg font-bold text-emerald-900">(نُوحِيهَا)</span>।</div>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-2 sm:col-span-2">
+                                <span class="bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded text-xs">১৭</span>
+                                <div><strong>১৭শ মাখরাজ:</strong> নাকের বাঁশি হইতে গুন্না উচ্চারণ করিতে হয় .... <span class="arabic-text text-lg font-bold text-emerald-900">(مِنْكُمْ ثُمَّ بِإِذْنِ اللَّهِ)</span>।</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 13,
+                title: "মাসআলা ও কুনূতে নাযিলাহ",
+                icon: "file-text",
+                content: `
+                    <div class="space-y-4">
+                        <div class="border-b border-emerald-100 pb-2">
+                            <h3 class="text-xl sm:text-2xl font-bold text-emerald-900">মাসআলা ও কুনূতে নাযিলাহ</h3>
+                        </div>
+
+                        <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl text-xs sm:text-sm text-slate-700">
+                            <strong>মাসআলা:</strong> বিত্রের নামাজের তৃতীয় রাকাতে কিরা'আতের পর তাকবীরের সহিত হাত উঠাইয়া হাত বাঁধা অবস্থায় রুকুর আগে 'দু'আয়ে কুনূত পড়িতে হয়।
+                        </div>
+
+                        <!-- Qunoot Dua -->
+                        <div class="bg-gradient-to-b from-amber-50 to-white border border-amber-300 rounded-2xl p-4 shadow-sm space-y-3">
+                            <h4 class="font-bold text-amber-950 text-sm sm:text-base flex items-center gap-2">
+                                <i data-lucide="book-open" class="w-4 h-4 text-amber-600"></i>
+                                কুনূতে নাযিলাহ (আরবী পাঠ):
+                            </h4>
+                            <div class="arabic-text text-xl sm:text-2xl leading-loose font-bold text-emerald-950 bg-white p-4 rounded-xl border border-amber-200 shadow-inner">
+                                اللَّهُمَّ اهْدِنِي فِيمَنْ هَدَيْتَ وَعَافِنِي فِيمَنْ عَافَيْتَ وَتَوَلَّنِي فِيمَنْ تَوَلَّيْتَ وَبَارِكْ لِي فِيمَا أَعْطَيْتَ وَقِنِي شَرَّ مَا قَضَيْتَ إِنَّكَ تَقْضِي وَلَا يُقْضَى عَلَيْكَ وَإِنَّهُ لَا يَذِلُّ مَنْ وَالَيْتَ وَلَا يَعِزُّ مَنْ عَادَيْتَ تَبَارَكْتَ رَبَّنَا وَتَالَيْتَ نَسْتَغْفِرُكَ وَنَتُوبُ إِلَيْكَ اللَّهُمَّ اغْفِرْ لَنَا وَلِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ وَالْمُسْلِمِينَ وَالْمُسْلِمَاتِ وَأَلِّفْ بَيْنَ قُلُوبِهِمْ وَأَصْلِحْ ذَاتَ بَيْنِهِمْ وَانْصُرْهُمْ عَلَى عَدُوِّكَ وَعَدُوِّهِمْ اللَّهُمَّ الْعَنِ الْكَفَرَةَ الَّذِينَ يَصُدُّونَ عَنْ سَبِيلِكَ وَيُكَذِّبُونَ رُسُلَكَ وَيُقَاتِلُونَ أَوْلِيَاءَكَ اللَّهُمَّ خَالِفْ بَيْنَ كالمَتِهِمْ وَزَلْزِلْ أَقْدَامَهُمْ وَأَنْزِلْ بِهِمْ بَأْسَكَ الَّذِي لَا تُرَدُّهُ عَنِ الْقَوْمِ الْمُجْرِمِينَ।
+                            </div>
+                        </div>
+
+                        <!-- Bangla Translation -->
+                        <div class="bg-white border border-slate-200 p-4 rounded-xl space-y-2 text-xs sm:text-sm text-slate-700 leading-relaxed shadow-sm">
+                            <h4 class="font-bold text-emerald-900 text-sm">বাংলা অর্থ:</h4>
+                            <p class="max-h-40 overflow-y-auto pr-2 text-justify">
+                                হে আল্লাহ্! হেদায়েত কর আমায় যাহাদের তুমি হেদায়েত করিয়াছ তাহাদের সাথে। শান্তি স্বস্তিদান কর আমায় যাহাদের তুমি শান্তি স্বস্তিদান করিয়াছ তাহাদের সাথে। অভিভাবকত্ব গ্রহণ কর আমার যাহাদের তুমি অভিভাবকত্ব গ্রহণ করিয়াছ তাহাদের সাথে। বরকত দান কর আমায় যাহা তুমি দান করিয়াছ আমায় তাহাতে এবং রক্ষা কর আমায় উহার অনিষ্ট হইতে যাহা তুমি নির্ধারণ করিয়াছ। (আমার জন্য) কেননা তুমি নির্দেশ দান কর, তোমার উপর নির্দেশ দান করা চলে না। বস্তুতঃ সে ব্যক্তি অপমানিত হয় না যাহাকে তুমি মিত্র ভাবিয়াছ। আর সম্মানিত হয় না সেই ব্যক্তি যাহাকে তুমি শত্রু ভাবিয়াছ। বরকতময় তুমি হে আমাদের প্রতিপালক। আর তুমিই সুউচ্চ। আমরা তোমার নিকট ক্ষমা প্রার্থনা করি এবং তোমার দিকে রুজু হই। হে আল্লাহ্! ক্ষমা কর আমাদেরকে এবং মুমিন নর ও মুমিন নারীদেরকে আর মুসলমান নর ও মুসলমান নারীদেরকে তাহাদের অন্তরসমূহ জুড়িয়া দাও আর তাহাদের মাঝে মীমাংসা করিয়া দাও। সাহায্য কর তাহাদেরকে তোমার শত্রুও তাহাদের শত্রুর বিরুদ্ধে হে আল্লাহ লানত বর্ষণ কর কাফেরদের প্রতি যাহারা প্রতিবন্ধকতা সৃষ্টি করে তোমার পথে এবং অস্বীকার করে তোমার রাসুলদেরকে আর যুদ্ধবিগ্রহ করে তোমার অলীদের সাথে। হে আল্লাহ! বিভেদ সৃষ্টি করিয়া দাও তাহাদের কথার মাঝে এবং কম্পন সৃষ্টি করিয়া দাও তাহাদের পদযুগলে আর নাযিল কর তোমার এমন শাস্তি যাহা তুমি অপরাধীগণ হইতে অপসারণ কর না।
+                            </p>
+                        </div>
+
+                        <div class="bg-amber-100/70 border border-amber-300 p-3 rounded-xl text-xs text-amber-950 font-semibold">
+                            <strong>মাসআলা:</strong> মুসলমানদের উপর ব্যাপকভাবে কোন মুসীবত আসিলে ফজরের নামাজে দ্বিতীয় রাকাতে রুকুর পর দাঁড়ান অবস্থায় কুনূতে নাযিলাহ পাঠ করিতে হয়।
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        function initApp() {
+            populateSlideSelect();
+            populateTocList();
+            renderSlide();
+            renderDocView();
+            updateBookmarkBtn();
+            lucide.createIcons();
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (isDocView) return;
+                if (e.key === 'ArrowRight' || e.key === 'Space') {
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                }
+            });
+
+            // Touch Swipe Support
+            let touchstartX = 0;
+            let touchendX = 0;
+            const slideArea = document.getElementById('slideView');
+
+            slideArea.addEventListener('touchstart', e => {
+                touchstartX = e.changedTouches[0].screenX;
+            }, false);
+
+            slideArea.addEventListener('touchend', e => {
+                touchendX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, false);
+
+            function handleSwipe() {
+                if (isDocView) return;
+                if (touchendX < touchstartX - 50) nextSlide();
+                if (touchendX > touchstartX + 50) prevSlide();
+            }
+        }
+
+        function populateSlideSelect() {
+            const select = document.getElementById('slideSelect');
+            select.innerHTML = slidesData.map((s, idx) => `
+                <option value="${idx}">${s.id}. ${s.title}</option>
+            `).join('');
+        }
+
+        function populateTocList(filterQuery = '') {
+            const list = document.getElementById('tocList');
+            const filtered = slidesData.filter(s => 
+                s.title.toLowerCase().includes(filterQuery.toLowerCase()) || 
+                s.content.toLowerCase().includes(filterQuery.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                list.innerHTML = `<div class="text-center py-6 text-slate-400 text-xs">কোন বিষয়বস্তু খুঁজে পাওয়া যায় নাই</div>`;
+                return;
+            }
+
+            list.innerHTML = filtered.map((s) => {
+                const originalIndex = slidesData.findIndex(item => item.id === s.id);
+                const isBookmarked = bookmarks.includes(s.id);
+                return `
+                    <button onclick="goToSlide(${originalIndex}); toggleTocModal();" class="w-full text-left p-3 rounded-xl hover:bg-emerald-50 border border-slate-100 hover:border-emerald-200 transition flex items-center justify-between group">
+                        <div class="flex items-center space-x-3">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-100 group-hover:bg-emerald-800 text-emerald-900 group-hover:text-amber-300 flex items-center justify-center font-bold text-xs transition">
+                                ${s.id}
+                            </span>
+                            <span class="text-sm font-semibold text-slate-800 group-hover:text-emerald-900">
+                                ${s.title}
+                            </span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            ${isBookmarked ? `<i data-lucide="bookmark" class="w-4 h-4 text-amber-500 fill-amber-500"></i>` : ''}
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-emerald-700"></i>
+                        </div>
+                    </button>
+                `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        function filterToc(query) {
+            populateTocList(query);
+        }
+
+        function renderSlide() {
+            const slide = slidesData[currentSlide];
+            const container = document.getElementById('slideContainer');
+            
+            container.innerHTML = slide.content;
+
+            // Update Slide Indicator & Controls
+            document.getElementById('slideIndicator').innerText = `${currentSlide + 1} / ${slidesData.length}`;
+            document.getElementById('slideSelect').value = currentSlide;
+            
+            document.getElementById('prevBtn').disabled = (currentSlide === 0);
+            document.getElementById('nextBtn').disabled = (currentSlide === slidesData.length - 1);
+
+            // Update Progress Bar
+            const progressPct = ((currentSlide + 1) / slidesData.length) * 100;
+            document.getElementById('progressBar').style.width = `${progressPct}%`;
+
+            updateBookmarkBtn();
+            lucide.createIcons();
+        }
+
+        function renderDocView() {
+            const docContainer = document.getElementById('docContainer');
+            docContainer.innerHTML = slidesData.map(s => `
+                <section class="border-b border-slate-200 pb-8 last:border-0">
+                    <div class="flex items-center space-x-2 text-emerald-800 font-bold mb-3">
+                        <span class="bg-emerald-100 px-2.5 py-1 rounded-lg text-xs">বিষয় #${s.id}</span>
+                        <h3 class="text-lg font-bold">${s.title}</h3>
+                    </div>
+                    <div>${s.content}</div>
+                </section>
+            `).join('');
+        }
+
+        function toggleBookmark() {
+            const slideId = slidesData[currentSlide].id;
+            const idx = bookmarks.indexOf(slideId);
+            if (idx > -1) {
+                bookmarks.splice(idx, 1);
+            } else {
+                bookmarks.push(slideId);
+            }
+            localStorage.setItem('talimul_quran_bookmarks', JSON.stringify(bookmarks));
+            updateBookmarkBtn();
+            populateTocList();
+        }
+
+        function updateBookmarkBtn() {
+            const slideId = slidesData[currentSlide].id;
+            const isBookmarked = bookmarks.includes(slideId);
+            const icon = document.getElementById('bookmarkIcon');
+            if (isBookmarked) {
+                icon.classList.add('text-amber-400', 'fill-amber-400');
+            } else {
+                icon.classList.remove('text-amber-400', 'fill-amber-400');
+            }
+        }
+
+        function nextSlide() {
+            if (currentSlide < slidesData.length - 1) {
+                currentSlide++;
+                renderSlide();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                renderSlide();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            if (isDocView) {
+                toggleViewMode();
+            }
+            renderSlide();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleViewMode() {
+            isDocView = !isDocView;
+            const slideView = document.getElementById('slideView');
+            const docView = document.getElementById('docView');
+            const toggleText = document.getElementById('viewToggleText');
+            const toggleIcon = document.getElementById('viewToggleIcon');
+            const progressBarContainer = document.getElementById('progressBarContainer');
+
+            if (isDocView) {
+                slideView.classList.add('hidden');
+                docView.classList.remove('hidden');
+                toggleText.innerText = "স্লাইড মোড";
+                toggleIcon.setAttribute('data-lucide', 'presentation');
+                progressBarContainer.classList.add('hidden');
+            } else {
+                slideView.classList.remove('hidden');
+                docView.classList.add('hidden');
+                toggleText.innerText = "ডকুমেন্ট মোড";
+                toggleIcon.setAttribute('data-lucide', 'layout');
+                progressBarContainer.classList.remove('hidden');
+            }
+            lucide.createIcons();
+        }
+
+        function toggleTocModal() {
+            const modal = document.getElementById('tocModal');
+            modal.classList.toggle('hidden');
+        }
+
+        function adjustFontSize(delta) {
+            fontScale = Math.max(80, Math.min(130, fontScale + delta * 5));
+            document.getElementById('slideContainer').style.fontSize = `${fontScale}%`;
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>
