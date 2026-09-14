@@ -147,7 +147,7 @@
     <main class="flex-1 max-w-6xl w-full mx-auto p-3 sm:p-6 flex flex-col justify-center">
 
         <!-- PRESENTATION SLIDES VIEW -->
-        <div id="slideView" class="w-full relative min-h-[550px] flex flex-col justify-between pb-20">
+        <div id="slideView" class="w-full relative min-h-[550px] flex flex-col justify-between pb-24 sm:pb-20">
             
             <!-- Dynamic Slide Canvas -->
             <div id="slideContainer" class="bg-white rounded-2xl shadow-xl border border-emerald-100 p-5 sm:p-8 md:p-10 slide-transition flex-1 flex flex-col justify-between mb-2">
@@ -155,22 +155,22 @@
             </div>
 
             <!-- Slide Navigation Bar (Fixed at viewport bottom) -->
-            <div id="slideControls" class="fixed bottom-12 left-1/2 -translate-x-1/2 w-[calc(100%-1.5rem)] sm:w-[calc(100%-3rem)] max-w-6xl z-30 bg-emerald-900/95 backdrop-blur-md text-white rounded-xl p-3 shadow-2xl flex items-center justify-between gap-2 border border-emerald-700 border-t border-amber-500/20">
-                <button onclick="prevSlide()" id="prevBtn" class="px-4 py-2 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-amber-300 disabled:opacity-40 disabled:cursor-not-allowed font-medium transition flex items-center gap-2">
+            <div id="slideControls" class="fixed bottom-0 sm:bottom-12 left-0 sm:left-1/2 translate-x-0 sm:-translate-x-1/2 w-full sm:w-[calc(100%-3rem)] max-w-6xl z-30 bg-emerald-900/95 backdrop-blur-md text-white rounded-none sm:rounded-xl p-2 sm:p-3 shadow-2xl flex items-center justify-between gap-1 sm:gap-2 border border-emerald-700 border-b-0 sm:border-b border-t border-amber-500/20">
+                <button onclick="prevSlide()" id="prevBtn" class="px-2 sm:px-4 py-2 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-amber-300 disabled:opacity-40 disabled:cursor-not-allowed font-medium transition flex items-center gap-1 sm:gap-2">
                     <i data-lucide="arrow-left" class="w-5 h-5"></i>
                     <span class="hidden sm:inline">পূর্ববর্তী</span>
                 </button>
 
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-1 sm:gap-2 min-w-0">
                     <span id="slideIndicator" class="text-xs sm:text-sm font-semibold bg-emerald-950 px-3 py-1.5 rounded-full text-amber-300 border border-emerald-700">
                         ১ / ১৩
                     </span>
-                    <select id="slideSelect" onchange="goToSlide(parseInt(this.value))" class="bg-emerald-800 text-emerald-100 text-xs sm:text-sm rounded-lg px-2 py-1.5 border border-emerald-700 focus:outline-none focus:ring-1 focus:ring-amber-400">
+                    <select id="slideSelect" onchange="goToSlide(parseInt(this.value))" class="w-20 sm:w-auto max-w-[8rem] sm:max-w-none bg-emerald-800 text-emerald-100 text-xs sm:text-sm rounded-lg px-2 py-1.5 border border-emerald-700 focus:outline-none focus:ring-1 focus:ring-amber-400">
                         <!-- Options generated dynamically -->
                     </select>
                 </div>
 
-                <button onclick="nextSlide()" id="nextBtn" class="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-emerald-950 font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-2 shadow-md">
+                <button onclick="nextSlide()" id="nextBtn" class="px-2 sm:px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-emerald-950 font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1 sm:gap-2 shadow-md">
                     <span class="hidden sm:inline">পরবর্তী</span>
                     <i data-lucide="arrow-right" class="w-5 h-5"></i>
                 </button>
