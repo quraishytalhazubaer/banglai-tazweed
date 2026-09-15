@@ -78,7 +78,14 @@
                 padding: 0 !important;
             }
         }
+
+        .pdf-export .max-h-40 {
+            max-height: none !important;
+            overflow: visible !important;
+        }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body class="h-full bg-slate-100 text-slate-800 flex flex-col justify-between overflow-x-hidden selection:bg-emerald-200 selection:text-emerald-900">
 
@@ -125,9 +132,9 @@
                     </button>
                 </div>
 
-                <!-- Print / Save PDF Button -->
-                <button onclick="window.print()" class="p-2 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-emerald-200 transition hidden sm:block" title="প্রিন্ট / PDF সংরক্ষণ">
-                    <i data-lucide="printer" class="w-4 h-4"></i>
+                <!-- Direct PDF Download Button -->
+                <button onclick="downloadPDF(this)" class="p-2 rounded-lg bg-emerald-800 hover:bg-emerald-700 text-emerald-200 transition hidden sm:block" title="PDF ডাউনলোড" aria-label="PDF ডাউনলোড">
+                    <i data-lucide="download" class="w-4 h-4"></i>
                 </button>
 
                 <!-- Fullscreen Toggle -->
@@ -892,6 +899,115 @@
                 `
             }
         ];
+
+        async function downloadPDF(button) {
+            if (typeof html2canvas === 'undefined' || !window.jspdf || !window.jspdf.jsPDF) {
+                alert('PDF লাইব্রেরি লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।');
+                return;
+            }
+
+            const source = document.getElementById('docView');
+            const wasDocView = isDocView;
+            const originalStyle = source.getAttribute('style');
+
+            if (!wasDocView) {
+                toggleViewMode();
+            }
+
+            source.classList.add('pdf-export');
+            source.style.display = 'block';
+            source.style.visibility = 'visible';
+            source.style.position = 'absolute';
+            source.style.top = '0';
+            source.style.left = '0';
+            source.style.width = '794px';
+            source.style.maxWidth = 'none';
+            source.style.backgroundColor = '#ffffff';
+            source.style.color = '#1e293b';
+
+            if (document.fonts && document.fonts.ready) {
+                await document.fonts.ready;
+            }
+            await new Promise(requestAnimationFrame);
+
+            button.disabled = true;
+            button.innerHTML = '<i data-lucide="loader-circle" class="w-4 h-4 animate-spin"></i>';
+            lucide.createIcons();
+
+            try {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+                const pageMargin = 8;
+                const pageWidth = 210 - pageMargin * 2;
+                const pageHeight = 297 - pageMargin * 2;
+                const sections = source.querySelectorAll('#docContainer > section');
+
+                for (let index = 0; index < sections.length; index++) {
+                    const canvas = await html2canvas(sections[index], {
+                        scale: 1.5,
+                        backgroundColor: '#ffffff',
+                        useCORS: true,
+                        width: 794,
+                        windowWidth: 794,
+                        scrollY: 0
+                    });
+                    const imageWidth = pageWidth;
+                    const sliceHeight = Math.floor(canvas.width * pageHeight / imageWidth);
+
+                    for (let offset = 0; offset < canvas.height; offset += sliceHeight) {
+                        if (index > 0 || offset > 0) {
+                            pdf.addPage();
+                        }
+
+                        const slice = document.createElement('canvas');
+                        slice.width = canvas.width;
+                        slice.height = Math.min(sliceHeight, canvas.height - offset);
+                        slice.getContext('2d').drawImage(
+                            canvas,
+                            0, offset, canvas.width, slice.height,
+                            0, 0, slice.width, slice.height
+                        );
+
+                        const sliceHeightMm = slice.height * imageWidth / slice.width;
+                        pdf.addImage(
+                            slice.toDataURL('image/jpeg', 0.95),
+                            'JPEG',
+                            pageMargin,
+                            pageMargin,
+                            imageWidth,
+                            Math.min(sliceHeightMm, pageHeight)
+                        );
+                    }
+                }
+
+                pdf.save('talimul-quran-bangla.pdf');
+            } catch (error) {
+                console.error('PDF generation failed:', error);
+                alert('PDF তৈরি করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।');
+            } finally {
+                    source.classList.remove('pdf-export');
+                    source.style.removeProperty('display');
+                    source.style.removeProperty('visibility');
+                    source.style.removeProperty('position');
+                    source.style.removeProperty('top');
+                    source.style.removeProperty('left');
+                    source.style.removeProperty('width');
+                    source.style.removeProperty('max-width');
+                    source.style.removeProperty('background-color');
+                    source.style.removeProperty('color');
+                    if (originalStyle === null) {
+                        source.removeAttribute('style');
+                    } else {
+                        source.setAttribute('style', originalStyle);
+                    }
+                    if (!wasDocView) {
+                        toggleViewMode();
+                    }
+                    button.disabled = false;
+                    button.innerHTML = '<i data-lucide="download" class="w-4 h-4"></i>';
+                    lucide.createIcons();
+                }
+        }
 
         function initApp() {
             populateSlideSelect();

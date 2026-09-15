@@ -109,17 +109,89 @@
             font-size: 18px;
             line-height: 2;
         }
+        p, li, h3, h4, blockquote, .harf-card {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
         hr {
             border: 0;
             height: 1px;
             background: #e0e0e0;
             margin: 30px 0;
         }
+        .download-pdf {
+            display: block;
+            margin: 0 0 10px auto;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: #1b5e20;
+            color: #fff;
+            font-size: 24px;
+            line-height: 1;
+            cursor: pointer;
+        }
+        .download-pdf:hover {
+            background: #2e7d32;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: #fff;
+            }
+            .container {
+                max-width: none;
+                padding: 0;
+                box-shadow: none;
+            }
+            .download-pdf {
+                display: none;
+            }
+            h3, h4, blockquote, .harf-card {
+                break-inside: avoid;
+            }
+        }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        function downloadPDF(button) {
+            if (typeof html2pdf === 'undefined') {
+                alert('PDF লাইব্রেরি লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।');
+                return;
+            }
+
+            button.disabled = true;
+            button.textContent = '...';
+
+            html2pdf()
+                .set({
+                    margin: [15, 12, 15, 12],
+                    filename: 'talimul-quran-bangla.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                    pagebreak: {
+                        mode: ['css'],
+                        avoid: ['p', 'li', 'h3', 'h4', 'blockquote', '.harf-card']
+                    }
+                })
+                .from(document.querySelector('.container'))
+                .save()
+                .finally(function () {
+                    button.disabled = false;
+                    button.textContent = '\u21e9';
+                });
+        }
+    </script>
 </head>
 <body>
 
 <div class="container">
+
+    <button class="download-pdf" type="button" onclick="downloadPDF(this)" aria-label="PDF ডাউনলোড" title="PDF ডাউনলোড" data-html2canvas-ignore="true">&#8659;</button>
 
     <h1>ইসলামী ব্যাংক ট্রেনিং এন্ড রিসার্চ একাডেমী</h1>
     <h2>তালিমুল কোরআন</h2>
@@ -383,9 +455,7 @@
 
     <hr>
 
-    <h3>মাসআলা ও কুনূতে নাযিলাহ</h3>
-
-    <p><strong>মাসআলা:</strong> বিত্রের নামাজের তৃতীয় রাকাতে কিরা'আতের পর তাকবীরের সহিত হাত উঠাইয়া হাত বাঁধা অবস্থায় রুকুর আগে 'দু'আয়ে কুনূত পড়িতে হয়।</p>
+    <h3>কুনূতে নাযিলাহ</h3>
 
     <p><strong>কুনূতে নাযিলাহ:</strong></p>
     <blockquote class="arabic">
